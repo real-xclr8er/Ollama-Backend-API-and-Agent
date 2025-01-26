@@ -26,28 +26,35 @@ Ensure your directory structure looks like this:
 - `venv/`: Python virtual environment directory.
 - `logs/`: Directory for storing application logs.
 
-## Creating a Fresh WSL Instance
+## Creating a Fresh WSL Instance with Ubuntu
 1. Open PowerShell as Administrator.
 2. Install WSL and set the default version to WSL2:
    ```powershell
    wsl --install
    wsl --set-default-version 2
    ```
-3. Create a new WSL folder to house your instances:
+3. Download the Ubuntu distribution:
    ```powershell
-   mkdir C:\WSL
+   wsl --install -d Ubuntu
    ```
-4. Export an existing WSL instance (if required):
-   ```powershell
-   wsl --export <distro_name> C:\WSL\<distro_name>.tar
-   ```
-5. Import the WSL instance with a new name:
-   ```powershell
-   wsl --import UbuntuOllama C:\WSL\UbuntuOllama C:\WSL\<distro_name>.tar
-   ```
-6. Verify the instance:
+4. Verify the installation and set up the instance:
    ```powershell
    wsl --list --verbose
+   ```
+   You should see `Ubuntu` listed as a running instance.
+5. Start the Ubuntu instance:
+   ```powershell
+   wsl -d Ubuntu
+   ```
+6. Update and upgrade the instance:
+   ```bash
+   sudo apt update && sudo apt upgrade -y
+   ```
+7. Rename the instance for clarity (optional):
+   ```powershell
+   wsl --export Ubuntu C:\WSL\UbuntuOllama.tar
+   wsl --unregister Ubuntu
+   wsl --import UbuntuOllama C:\WSL\UbuntuOllama C:\WSL\UbuntuOllama.tar
    ```
 
 ## Installing Ollama
@@ -164,3 +171,12 @@ sudo rm -rf /mnt/data/ollama/models_backup
 - Develop a frontend to interact with the API.
 - Explore embedding additional knowledge into the Milvus database.
 - Experiment with fine-tuning models for custom use cases.
+
+## The Role of the Agent
+The `ollama_agent.py` file serves as an optional, advanced component in the Ollama ecosystem. It acts as an interactive layer between the user and the Ollama backend, providing:
+
+1. **Scheduled Interaction**: The agent can be configured to prompt users at specified intervals for updates or logs.
+2. **Context Management**: It can maintain session context, ensuring continuity in conversations.
+3. **Custom Behavior**: The agent can be extended to perform specific tasks, such as logging, monitoring, or preprocessing user inputs before sending them to the backend.
+
+This component is particularly useful for automation or scenarios requiring enhanced interactivity beyond simple API calls.
