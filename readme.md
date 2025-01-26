@@ -13,7 +13,6 @@ This README provides step-by-step instructions for setting up and interacting wi
 Ensure your directory structure looks like this:
 ```
 /mnt/c/WSL/UbuntuOllama/
-├── 2025/
 ├── ext4.vhdx
 ├── flask_ollama.py
 ├── launch_ollama.py
@@ -27,23 +26,63 @@ Ensure your directory structure looks like this:
 - `venv/`: Python virtual environment directory.
 - `logs/`: Directory for storing application logs.
 
-## Creating the WSL Instance
+## Creating a Fresh WSL Instance
 1. Open PowerShell as Administrator.
-2. Create the WSL folder to house your instances:
+2. Install WSL and set the default version to WSL2:
+   ```powershell
+   wsl --install
+   wsl --set-default-version 2
+   ```
+3. Create a new WSL folder to house your instances:
    ```powershell
    mkdir C:\WSL
    ```
-3. Export the WSL instance for proper naming:
+4. Export an existing WSL instance (if required):
    ```powershell
    wsl --export <distro_name> C:\WSL\<distro_name>.tar
    ```
-4. Import the WSL instance with the desired name:
+5. Import the WSL instance with a new name:
    ```powershell
    wsl --import UbuntuOllama C:\WSL\UbuntuOllama C:\WSL\<distro_name>.tar
    ```
-5. Verify the instance:
+6. Verify the instance:
    ```powershell
    wsl --list --verbose
+   ```
+
+## Installing Ollama
+1. Inside the WSL instance, download the Ollama CLI tool:
+   ```bash
+   curl -fsSL https://ollama.ai/install.sh | bash
+   ```
+2. Verify the installation:
+   ```bash
+   ollama version
+   ```
+3. Set the models directory for Ollama:
+   ```bash
+   export OLLAMA_MODELS=/mnt/data/ollama/models
+   echo 'export OLLAMA_MODELS=/mnt/data/ollama/models' >> ~/.bashrc
+   source ~/.bashrc
+   ```
+4. Pull a model to test:
+   ```bash
+   ollama pull deepseek-r1:14b
+   ```
+
+## Installing Milvus for Docker
+1. Install Docker Desktop and ensure it’s running.
+2. Pull the Milvus Docker Compose file:
+   ```bash
+   curl -o docker-compose.yml https://github.com/milvus-io/milvus/releases/download/v2.2.9/docker-compose.yml
+   ```
+3. Start the Milvus container:
+   ```bash
+   docker-compose up -d
+   ```
+4. Verify Milvus is running:
+   ```bash
+   docker ps
    ```
 
 ## Starting the System
