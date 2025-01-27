@@ -153,20 +153,6 @@ Expected output:
 ### Embedding with Milvus
 Milvus can store vector embeddings for additional querying capabilities. Integrate Milvus if you need advanced semantic search or retrieval features.
 
-## Cleanup
-### Shut Down WSL Instance
-To gracefully shut down the instance:
-```bash
-exit
-wsl --terminate UbuntuOllama
-```
-
-### Remove Unnecessary Files
-To free up disk space:
-```bash
-sudo rm -rf /mnt/data/ollama/models_backup
-```
-
 ## Future Enhancements
 - Develop a frontend to interact with the API.
 - Explore embedding additional knowledge into the Milvus database.
